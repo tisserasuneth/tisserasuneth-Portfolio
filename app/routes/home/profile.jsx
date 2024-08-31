@@ -1,34 +1,38 @@
-import profileImg from '~/assets/profile.jpg';
 import { Button } from '~/components/button';
 import { DecoderText } from '~/components/decoder-text';
+import { Image } from '~/components/image';
 import { Divider } from '~/components/divider';
 import { Heading } from '~/components/heading';
-import { Image } from '~/components/image';
 import { Link } from '~/components/link';
 import { Section } from '~/components/section';
 import { Text } from '~/components/text';
 import { Transition } from '~/components/transition';
 import { Fragment, useState } from 'react';
-import { media } from '~/utils/style';
 import katakana from './katakana.svg';
 import styles from './profile.module.css';
+import pmgTeam from '~/assets/pmg-team.jpg';
 
 const ProfileText = ({ visible, titleId }) => (
   <Fragment>
     <Heading className={styles.title} data-visible={visible} level={3} id={titleId}>
-      <DecoderText text="Hi there" start={visible} delay={500} />
+      <DecoderText text="Hey 👋" start={visible} delay={100} />
     </Heading>
+    <Image
+        src={`${pmgTeam}`}
+        alt="My overused headshot from LinkedIn"
+        style={{ 
+          width: '500px', 
+          zIndex: 1,
+        }}
+      />
+      <br/>
     <Text className={styles.description} data-visible={visible} size="l" as="p">
-      I’m Hamish, currently I live in Sydney working as a senior product designer at{' '}
-      <Link href="https://www.qwilr.com">Qwilr</Link>. My projects include UX design, UI
-      animations, and icon illustration. Being comfortable with code allows me to rapidly
-      prototype and validate experiences. If you’re interested in the tools and software I
-      use check out my <Link href="/uses">uses page</Link>.
-    </Text>
-    <Text className={styles.description} data-visible={visible} size="l" as="p">
-      In my spare time I like to practice Brazilian Jiu Jitsu, play video games, and{' '}
-      <Link href="/projects/volkihar-knight">make mods</Link>. I’m always down for hearing
-      about new projects, so feel free to drop me a line.
+      I'm Suneth Tissera. <br/> I currently work as a Software Engineer II 
+      <br/> for <Link href="https://www.pmg.com"> PMG Digital Agency </Link> in Dallas, TX 🏙️.
+
+      <br/><br/>
+      My workday includes many beep boops on the computer, 
+      and it's always rewarding to see how it all comes together in the end.
     </Text>
   </Fragment>
 );
