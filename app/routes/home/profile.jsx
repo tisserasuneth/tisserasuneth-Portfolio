@@ -1,5 +1,3 @@
-import profileImgLarge from '~/assets/profile-large.jpg';
-import profileImgPlaceholder from '~/assets/profile-placeholder.jpg';
 import profileImg from '~/assets/profile.jpg';
 import { Button } from '~/components/button';
 import { DecoderText } from '~/components/decoder-text';
@@ -78,16 +76,6 @@ export const Profile = ({ id, visible, sectionRef }) => {
                 </div>
               </div>
               <div className={styles.image}>
-                <Image
-                  reveal
-                  delay={100}
-                  placeholder={profileImgPlaceholder}
-                  srcSet={`${profileImg} 480w, ${profileImgLarge} 960w`}
-                  width={960}
-                  height={1280}
-                  sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
-                  alt="Me smiling like a goofball at the Qwilr office in Sydney"
-                />
                 <svg className={styles.svg} data-visible={visible} viewBox="0 0 136 766">
                   <use href={`${katakana}#katakana-profile`} />
                 </svg>
