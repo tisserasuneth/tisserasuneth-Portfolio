@@ -37,45 +37,60 @@ varying float noise;
 #include <logdepthbuf_pars_fragment>
 #include <clipping_planes_pars_fragment>
 
+vec3 reduceSaturation(vec3 color, float saturationFactor) {
+    // Compute the grayscale (luminance) of the color
+    float gray = dot(color, vec3(0.3, 0.59, 0.11));
+    // Blend between the grayscale and the original color
+    return mix(vec3(gray), color, saturationFactor);
+}
+
 void main() {
 
-	#include <clipping_planes_fragment>
+    #include <clipping_planes_fragment>
 
-  vec3 color = vec3(vUv * (0.2 - 4.5 * noise), 3.0);
-  vec3 finalColors = vec3(color.b * 1.5, color.r * 1.8, color.g * 0.8);
-  vec4 diffuseColor = vec4(cos(finalColors * noise * 3.0), 1.0);
-  ReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));
-  vec3 totalEmissiveRadiance = emissive;
+    vec3 color = vec3(vUv * (0.2 - 4.5 * noise), 3.0);
+    vec3 finalColors = vec3(color.b * 1.5, color.r * 1.8, color.g * 0.8);
+    vec3 saturatedColors = cos(finalColors * noise * 3.0);
 
-	#include <logdepthbuf_fragment>
-	#include <map_fragment>
-	#include <color_fragment>
-	#include <alphamap_fragment>
-	#include <alphatest_fragment>
-	#include <alphahash_fragment>
-	#include <specularmap_fragment>
-	#include <normal_fragment_begin>
-	#include <normal_fragment_maps>
-	#include <emissivemap_fragment>
+    // Reduce saturation slightly
+    float saturationFactor = 0.9; // Adjust this factor to reduce saturation
+    vec3 adjustedColors = reduceSaturation(saturatedColors, saturationFactor);
 
-	// accumulation
-	#include <lights_phong_fragment>
-	#include <lights_fragment_begin>
-	#include <lights_fragment_maps>
-	#include <lights_fragment_end>
+    vec4 diffuseColor = vec4(adjustedColors, 1.0);
+    ReflectedLight reflectedLight = ReflectedLight(vec3(0.0), vec3(0.0), vec3(0.0), vec3(0.0));
+    vec3 totalEmissiveRadiance = emissive;
 
-	// modulation
-	#include <aomap_fragment>
+    #include <logdepthbuf_fragment>
+    #include <map_fragment>
+    #include <color_fragment>
+    #include <alphamap_fragment>
+    #include <alphatest_fragment>
+    #include <alphahash_fragment>
+    #include <specularmap_fragment>
+    #include <normal_fragment_begin>
+    #include <normal_fragment_maps>
+    #include <emissivemap_fragment>
 
-	vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;
+    // accumulation
+    #include <lights_phong_fragment>
+    #include <lights_fragment_begin>
+    #include <lights_fragment_maps>
+    #include <lights_fragment_end>
 
-	#include <envmap_fragment>
-	#include <opaque_fragment>
-	#include <tonemapping_fragment>
-	#include <colorspace_fragment>
-	#include <fog_fragment>
-	#include <premultiplied_alpha_fragment>
-	#include <dithering_fragment>
+    // modulation
+    #include <aomap_fragment>
 
-  gl_FragColor = vec4(outgoingLight, diffuseColor.a);
+    vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + reflectedLight.directSpecular + reflectedLight.indirectSpecular + totalEmissiveRadiance;
+
+    #include <envmap_fragment>
+    #include <opaque_fragment>
+    #include <tonemapping_fragment>
+    #include <colorspace_fragment>
+    #include <fog_fragment>
+    #include <premultiplied_alpha_fragment>
+    #include <dithering_fragment>
+
+    // Add a thin overlay layer
+    vec4 overlayColor = vec4(0.0, 0.0, 0.0, 0.3);
+    gl_FragColor = mix(vec4(outgoingLight, diffuseColor.a), overlayColor, overlayColor.a);
 }
