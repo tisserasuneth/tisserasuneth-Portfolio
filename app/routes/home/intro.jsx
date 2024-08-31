@@ -52,7 +52,8 @@ export function Intro({ id, sectionRef, scrollIndicatorHidden, ...rest }) {
           width: '200px', 
           height: '100px', 
           top: '-140px', 
-          left: '-300px'
+          left: '-300px',
+          zIndex: 1,
         }}
         data-shape="circle"
       />
