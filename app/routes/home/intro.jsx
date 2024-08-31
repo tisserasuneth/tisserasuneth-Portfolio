@@ -6,12 +6,15 @@ import { tokens } from '~/components/theme-provider/theme';
 import { Transition } from '~/components/transition';
 import { VisuallyHidden } from '~/components/visually-hidden';
 import { Link as RouterLink } from '@remix-run/react';
-import { useInterval, usePrevious, useScrollToHash } from '~/hooks';
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { useScrollToHash } from '~/hooks';
+import { Suspense, lazy } from 'react';
 import { cssProps } from '~/utils/style';
 import config from '~/config.json';
 import { useHydrated } from '~/hooks/useHydrated';
 import styles from './intro.module.css';
+
+import profileImg from '~/assets/profile.jpg';
+import { Image } from '~/components/image';
 
 const DisplacementSphere = lazy(() =>
   import('./displacement-sphere').then(module => ({ default: module.DisplacementSphere }))
@@ -19,31 +22,10 @@ const DisplacementSphere = lazy(() =>
 
 export function Intro({ id, sectionRef, scrollIndicatorHidden, ...rest }) {
   const { theme } = useTheme();
-  const { disciplines } = config;
-  const [disciplineIndex, setDisciplineIndex] = useState(0);
-  const prevTheme = usePrevious(theme);
-  const introLabel = [disciplines.slice(0, -1).join(', '), disciplines.slice(-1)[0]].join(
-    ', and '
-  );
-  const currentDiscipline = disciplines.find((item, index) => index === disciplineIndex);
+
   const titleId = `${id}-title`;
   const scrollToHash = useScrollToHash();
   const isHydrated = useHydrated();
-
-  useInterval(
-    () => {
-      const index = (disciplineIndex + 1) % disciplines.length;
-      setDisciplineIndex(index);
-    },
-    5000,
-    theme
-  );
-
-  useEffect(() => {
-    if (prevTheme && prevTheme !== theme) {
-      setDisciplineIndex(0);
-    }
-  }, [theme, prevTheme]);
 
   const handleScrollClick = event => {
     event.preventDefault();
@@ -51,6 +33,7 @@ export function Intro({ id, sectionRef, scrollIndicatorHidden, ...rest }) {
   };
 
   return (
+    
     <Section
       className={styles.intro}
       as="section"
@@ -60,6 +43,20 @@ export function Intro({ id, sectionRef, scrollIndicatorHidden, ...rest }) {
       tabIndex={-1}
       {...rest}
     >
+
+      <Image
+        delay={100}
+        src={`${profileImg}`}
+        alt="My overused headshot from LinkedIn"
+        style={{ 
+          width: '200px', 
+          height: '100px', 
+          top: '-140px', 
+          left: '-300px'
+        }}
+        data-shape="circle"
+      />
+
       <Transition in key={theme} timeout={3000}>
         {({ visible, status }) => (
           <>
@@ -69,46 +66,20 @@ export function Intro({ id, sectionRef, scrollIndicatorHidden, ...rest }) {
               </Suspense>
             )}
             <header className={styles.text}>
-              <h1 className={styles.name} data-visible={visible} id={titleId}>
-                <DecoderText text={config.name} delay={500} />
-              </h1>
               <Heading level={0} as="h2" className={styles.title}>
-                <VisuallyHidden className={styles.label}>
-                  {`${config.role} + ${introLabel}`}
-                </VisuallyHidden>
                 <span aria-hidden className={styles.row}>
                   <span
                     className={styles.word}
                     data-status={status}
                     style={cssProps({ delay: tokens.base.durationXS })}
                   >
-                    {config.role}
+                    {config.name}
                   </span>
                   <span className={styles.line} data-status={status} />
                 </span>
-                <div className={styles.row}>
-                  {disciplines.map(item => (
-                    <Transition
-                      unmount
-                      in={item === currentDiscipline}
-                      timeout={{ enter: 3000, exit: 2000 }}
-                      key={item}
-                    >
-                      {({ status, nodeRef }) => (
-                        <span
-                          aria-hidden
-                          ref={nodeRef}
-                          className={styles.word}
-                          data-plus={true}
-                          data-status={status}
-                          style={cssProps({ delay: tokens.base.durationL })}
-                        >
-                          {item}
-                        </span>
-                      )}
-                    </Transition>
-                  ))}
-                </div>
+                <h1 className={styles.name} data-visible={visible} id={titleId}>
+                    <DecoderText text={config.role} delay={500} />
+                </h1>
               </Heading>
             </header>
             <RouterLink

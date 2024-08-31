@@ -74,9 +74,14 @@
     height: auto;
     grid-column: 1;
     grid-row: 1;
-
+  
     &[data-cover='true'] {
       height: 100%;
+      object-fit: cover;
+    }
+  
+    &[data-shape='circle'] {
+      border-radius: 50%; 
       object-fit: cover;
     }
   }

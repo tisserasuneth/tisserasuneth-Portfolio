@@ -1,11 +1,9 @@
 {
-  "name": "Hamish Williams",
-  "role": "Designer",
-  "disciplines": ["Developer", "Prototyper", "Animator", "Illustrator", "Modder"],
+  "name": "Suneth Tissera",
+  "role": "Software Engineer",
   "url": "https://hamishw.com",
-  "twitter": "@hamishMW",
-  "figma": "@Hamish",
-  "github": "HamishMW",
-  "repo": "https://github.com/HamishMW/portfolio",
-  "ascii": "__  __  __\n\u005C \u005C \u005C \u005C \u005C\u2215\n \u005C \u005C\u2215\u005C \u005C\n  \u005C\u2215  \u005C\u2215\n"
+  "linkedin": "tisserasuneth",
+  "github": "tisserasuneth",
+  "repo": "https://github.com/tisserasuneth/tisserasuneth-Portfolio",
+  "ascii": " __  __  __ \u2588\u2588\u2588\u2588\u2588\u2588\u2588  \n \u2588\u2593\u2593\u2593\u2593\u2593\u2593\u2588 \n\u2593\u2593      \u2593\u2593\n\u2593\u2593      \n\u2593\u2593      \n\u2593\u2593      \u2593\u2593\n \u2588\u2593\u2593\u2593\u2593\u2593\u2593\u2588 \n  \u2588\u2588\u2588\u2588\u2588\u2588\u2588"
 }

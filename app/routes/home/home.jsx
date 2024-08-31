@@ -41,8 +41,8 @@ export const links = () => {
 
 export const meta = () => {
   return baseMeta({
-    title: 'Designer + Developer',
-    description: `Design portfolio of ${config.name} — a product designer working on web & mobile apps with a focus on motion, experience design, and accessibility.`,
+    title: 'Software Engineer',
+    description: `Portfolio of ${config.name}`,
   });
 };
 
@@ -93,11 +93,19 @@ export const Home = () => {
 
   return (
     <div className={styles.home}>
+
       <Intro
         id="intro"
         sectionRef={intro}
         scrollIndicatorHidden={scrollIndicatorHidden}
       />
+
+      <Profile
+        sectionRef={details}
+        visible={visibleSections.includes(details.current)}
+        id="details"
+      />
+
       <ProjectSummary
         id="project-1"
         sectionRef={projectOne}
@@ -162,11 +170,6 @@ export const Home = () => {
             },
           ],
         }}
-      />
-      <Profile
-        sectionRef={details}
-        visible={visibleSections.includes(details.current)}
-        id="details"
       />
       <Footer />
     </div>

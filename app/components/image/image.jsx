@@ -17,6 +17,7 @@ export const Image = ({
   src: baseSrc,
   srcSet,
   placeholder,
+  shape,
   ...rest
 }) => {
   const [loaded, setLoaded] = useState(false);
@@ -47,6 +48,7 @@ export const Image = ({
         reveal={reveal}
         src={src}
         srcSet={srcSet}
+        shape={shape}
         placeholder={placeholder}
         {...rest}
       />
@@ -60,6 +62,7 @@ const ImageElements = ({
   inViewport,
   srcSet,
   placeholder,
+  shape,
   delay,
   src,
   alt,
@@ -177,6 +180,7 @@ const ImageElements = ({
           className={styles.element}
           data-loaded={loaded}
           data-cover={cover}
+          data-shape={shape}
           onLoad={onLoad}
           decoding="async"
           src={showFullRes ? src : undefined}
